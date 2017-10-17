@@ -8,8 +8,13 @@ class Gateway extends React.Component {
     this.state = {
       username: '',
       password: '',
-      error: ''
+      error: props.error || ''
     }
+  }
+  componentWillReceiveProps = nextProps => {
+    this.setState({
+      error: nextProps.error
+    })
   }
   handlePasswordChange = event => {
     this.setState({
@@ -56,5 +61,9 @@ class Gateway extends React.Component {
   }
 }
 
-const mapStateToProps = ({session}) => ({error: session.sessionError})
+const mapStateToProps = ({session}) => {
+  return {
+    error: session.sessionError
+  }
+}
 export default connect(mapStateToProps, {login})(Gateway)

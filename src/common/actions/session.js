@@ -23,7 +23,6 @@ export const checkSession = () => dispatch => {
 export const login = (username, password) => dispatch => {
   return axios.post('/api/login', {username, password})
     .then(({data}) => {
-      console.log(data)
       dispatch({
         type: SESSION_START
       })
