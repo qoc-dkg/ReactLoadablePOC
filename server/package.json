@@ -25,5 +25,8 @@
     "passport-twitter": "~1.0.2"
   },
   "author": "dkg",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^1.12.1"
+  }
 }
