@@ -1,26 +1,36 @@
-//load all the things we need
 var LocalStrategy = require('passport-local').Strategy
 
-//load up the user model
-var User = require('../app/models/user')
+//load mongo user model
+//var User = require('../app/models/user')
+
+const patient = {
+  username: 'patient',
+  password: '1111'
+}
 
 module.exports = function (passport) {
+
   passport.serializeUser(function (user, done) {
-    done(null, user.id)
-  });
+    done(null, patient)
+  })
 
   passport.deserializeUser(function (id, done) {
-    User.findById(id, function (err, user) {
-      done(err, user);
-    });
-  });
+    done(null, patient)
+  })
 
   passport.use('login', new LocalStrategy({
     usernameField: 'username',
     passwordField: 'password',
     passReqToCallback: true
   }, function (req, username, password, done) {
-    const query = {username};
+    const rightCredentials = username === patient.username &&
+      password === patient.password
+    if (rightCredentials) {
+      return done(null, patient)
+    } else {
+      return done(null, false)
+    }
+    /*const query = {username};
     User.findOne(query, function (err, user) {
       if (err) {
         return done(err);
@@ -32,33 +42,6 @@ module.exports = function (passport) {
         return done(null, false);
       }
       return done(null, user);
-    })
-  }));
-
-  passport.use('signup', new LocalStrategy({
-    usernameField: 'username',
-    passwordField: 'password',
-    passReqToCallback: true
-  }, function (req, username, password, done) {
-    process.nextTick(function () {
-      const query = {username}
-      User.findOne(query, function (err, user) {
-        if (err) {
-          return done(err)
-        }
-        if (user) {
-          return done(null, false)
-        }
-        const newUser = new User()
-        newUser.username = username
-        newUser.password = newUser.generateHash(password)
-        newUser.save(function (err) {
-          if (err) {
-            throw err;
-          }
-          return done(null, newUser)
-        })
-      })
-    })
+    })*/
   }))
 }
