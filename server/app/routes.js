@@ -14,19 +14,19 @@ module.exports = function (app, passport) {
   const serializeUser = ({username}) => ({username})
 
   app.get(/^\/(build\/)?(dashboard.js)$/, isAuthenticated, (req, res) => {
-    res.sendFile(path.join(__dirname, '../build/dashboard.js'));
+    res.sendFile(path.join(__dirname, '../../build/' + req.params[1]));
   })
 
   app.get(/^\/assets\/(.+)/, (req, res) => {
-    res.sendFile(path.join(__dirname, '../assets/' + req.params[0]))
+    res.sendFile(path.join(__dirname, '../../assets/' + req.params[0]))
   })
 
   app.get(/^\/build\/(.+)/, (req, res) => {
-    res.sendFile(path.join(__dirname, '../build/' + req.params[0]))
+    res.sendFile(path.join(__dirname, '../../build/' + req.params[0]))
   })
 
   app.get(/^\/(?!api.*).*/, (req, res) => {
-    res.sendFile(path.join(__dirname, '../index.html'));
+    res.sendFile(path.join(__dirname, '../../index.html'));
   })
 
   app.get('/api/check-session', function (req, res) {
