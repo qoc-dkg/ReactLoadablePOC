@@ -7,8 +7,8 @@ import {
 
 export const checkSession = () => dispatch => {
   return axios.get('/api/check-session')
-    .then(response => {
-      if (response === 'hasSession') {
+    .then(({data}) => {
+      if (data === 'hasSession') {
         dispatch({
           type: SESSION_START
         })

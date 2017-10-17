@@ -13,16 +13,16 @@ module.exports = function (app, passport) {
 
   const serializeUser = ({username}) => ({username})
 
+  app.get(/^\/(build\/)?(dashboard.js)$/, isAuthenticated, (req, res) => {
+    res.sendFile(path.join(__dirname, '../build/dashboard.js'));
+  })
+
   app.get(/^\/assets\/(.+)/, (req, res) => {
     res.sendFile(path.join(__dirname, '../assets/' + req.params[0]))
   })
 
   app.get(/^\/build\/(.+)/, (req, res) => {
     res.sendFile(path.join(__dirname, '../build/' + req.params[0]))
-  })
-
-  app.get(/^\/(dashboard.js)$/, isAuthenticated, (req, res) => {
-    res.sendFile(path.join(__dirname, '../build/' + req.params[0]));
   })
 
   app.get(/^\/(?!api.*).*/, (req, res) => {
