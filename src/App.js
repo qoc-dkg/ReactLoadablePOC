@@ -2,7 +2,11 @@ import React from 'react'
 import {connect, Provider} from 'react-redux'
 import {Route, BrowserRouter as Router} from 'react-router-dom'
 import Gateway from 'gateway/Gateway'
-import Dashboard from 'dashboard/Dashboard'
+import Loadable from 'react-loadable';
+
+const Dashboard = Loadable({
+  loader: () => import('dashboard/Dashboard')
+})
 
 const App = props => {
   if (props.checkingSession) {
