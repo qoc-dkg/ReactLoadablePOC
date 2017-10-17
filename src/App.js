@@ -5,7 +5,8 @@ import Gateway from 'gateway/Gateway'
 import Loadable from 'react-loadable';
 
 const Dashboard = Loadable({
-  loader: () => import('dashboard/Dashboard')
+  loader: () => import('dashboard/index.js'),
+  loading: () => (<div></div>)
 })
 
 const App = props => {

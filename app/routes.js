@@ -21,6 +21,10 @@ module.exports = function (app, passport) {
     res.sendFile(path.join(__dirname, '../build/' + req.params[0]))
   })
 
+  app.get(/^\/(0.js)$/, isAuthenticated, (req, res) => {
+    res.sendFile(path.join(__dirname, '../build/' + req.params[0]));
+  })
+
   app.get(/^\/(?!api.*).*/, (req, res) => {
     res.sendFile(path.join(__dirname, '../index.html'));
   })

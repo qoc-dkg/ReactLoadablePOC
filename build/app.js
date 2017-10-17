@@ -1,6 +1,6 @@
-webpackJsonp([0],{
+webpackJsonp([1],{
 
-/***/ 125:
+/***/ 126:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -16,15 +16,15 @@ var _react = __webpack_require__(6);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactRedux = __webpack_require__(63);
+var _reactRedux = __webpack_require__(41);
 
-var _reactRouterDom = __webpack_require__(273);
+var _reactRouterDom = __webpack_require__(274);
 
 var _Gateway = __webpack_require__(149);
 
 var _Gateway2 = _interopRequireDefault(_Gateway);
 
-var _reactLoadable = __webpack_require__(304);
+var _reactLoadable = __webpack_require__(256);
 
 var _reactLoadable2 = _interopRequireDefault(_reactLoadable);
 
@@ -32,7 +32,10 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var Dashboard = (0, _reactLoadable2.default)({
   loader: function loader() {
-    return __webpack_require__.e/* import() */(2).then(__webpack_require__.bind(null, 148));
+    return __webpack_require__.e/* import() */(0).then(__webpack_require__.bind(null, 305));
+  },
+  loading: function loading() {
+    return _react2.default.createElement('div', null);
   }
 });
 
@@ -61,7 +64,7 @@ exports.default = (0, _reactRedux.connect)(mapStateToProps, {})(App);
 
 /***/ }),
 
-/***/ 126:
+/***/ 127:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -71,9 +74,9 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _redux = __webpack_require__(69);
+var _redux = __webpack_require__(70);
 
-var _reduxThunk = __webpack_require__(296);
+var _reduxThunk = __webpack_require__(297);
 
 var _reduxThunk2 = _interopRequireDefault(_reduxThunk);
 
@@ -87,7 +90,7 @@ exports.default = (0, _redux.createStore)(_rootReducer2.default, (0, _redux.appl
 
 /***/ }),
 
-/***/ 146:
+/***/ 147:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -97,7 +100,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _session = __webpack_require__(147);
+var _session = __webpack_require__(148);
 
 var _session2 = _interopRequireDefault(_session);
 
@@ -109,7 +112,7 @@ exports.default = {
 
 /***/ }),
 
-/***/ 147:
+/***/ 148:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -119,7 +122,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _types = __webpack_require__(75);
+var _types = __webpack_require__(32);
 
 var INITIAL_STATE = {
   checkingSession: true,
@@ -168,13 +171,13 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _reactRedux = __webpack_require__(63);
+var _reactRedux = __webpack_require__(41);
 
 var _react = __webpack_require__(6);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _session = __webpack_require__(40);
+var _session = __webpack_require__(25);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -294,19 +297,19 @@ var _react = __webpack_require__(6);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactDom = __webpack_require__(127);
+var _reactDom = __webpack_require__(128);
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
 
-var _store = __webpack_require__(126);
+var _store = __webpack_require__(127);
 
 var _store2 = _interopRequireDefault(_store);
 
-var _App = __webpack_require__(125);
+var _App = __webpack_require__(126);
 
 var _App2 = _interopRequireDefault(_App);
 
-var _session = __webpack_require__(40);
+var _session = __webpack_require__(25);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -328,9 +331,9 @@ Object.defineProperty(exports, "__esModule", {
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
-var _redux = __webpack_require__(69);
+var _redux = __webpack_require__(70);
 
-var _reducers = __webpack_require__(146);
+var _reducers = __webpack_require__(147);
 
 var _reducers2 = _interopRequireDefault(_reducers);
 
@@ -340,7 +343,7 @@ exports.default = (0, _redux.combineReducers)(_extends({}, _reducers2.default));
 
 /***/ }),
 
-/***/ 40:
+/***/ 25:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -351,11 +354,11 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.logout = exports.login = exports.checkSession = undefined;
 
-var _axios = __webpack_require__(128);
+var _axios = __webpack_require__(71);
 
 var _axios2 = _interopRequireDefault(_axios);
 
-var _types = __webpack_require__(75);
+var _types = __webpack_require__(32);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -405,7 +408,7 @@ var logout = exports.logout = function logout() {
 
 /***/ }),
 
-/***/ 75:
+/***/ 32:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";

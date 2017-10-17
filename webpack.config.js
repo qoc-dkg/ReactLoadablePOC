@@ -15,7 +15,8 @@ const env = process.env.NODE_ENV || 'development'
 const baseConfig = {
   devtool: 'source-map',
   entry: {
-    app: path.join(srcDir, 'index.js')
+    app: path.join(srcDir, 'index.js'),
+    dashboard: path.join(srcDir, 'Dashboard/index.js')
   },
   output: {
     path: buildDir,
