@@ -10,7 +10,13 @@ The Dashboard component is considered a 'protected view'.  Without authenticatio
 
 Run the server/server.js file with nodemon.  For convenience scripts/run.sh will initialize the front and backend
 and start nodemon for you
+
 `chmod +x scripts/run.sh; ./run.sh`
 
-There is one hardcoded user with the credentials username: patient pwd: 1111 to test logging in
+There is one hardcoded user with the credentials 
+
+`username: patient
+pwd: 1111` 
+
+to test logging in.
 The protected js component is /build/dashboard.js
