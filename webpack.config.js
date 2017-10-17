@@ -1,6 +1,7 @@
 import path from 'path'
 import webpack from 'webpack'
 import cssNextPlugin from 'postcss-cssnext'
+import ReactLoadableBabelPlugin from 'react-loadable/babel'
 import ExtractTextPlugin from 'extract-text-webpack-plugin'
 import pkg from './package.json'
 
@@ -15,8 +16,7 @@ const env = process.env.NODE_ENV || 'development'
 const baseConfig = {
   devtool: 'source-map',
   entry: {
-    app: path.join(srcDir, 'index.js'),
-    dashboard: path.join(srcDir, 'Dashboard/index.js')
+    app: path.join(srcDir, 'index.js')
   },
   output: {
     path: buildDir,

@@ -5,7 +5,7 @@ import Gateway from 'gateway/Gateway'
 import Loadable from 'react-loadable';
 
 const Dashboard = Loadable({
-  loader: () => import('dashboard/index.js'),
+  loader: () => import(/* webpackChunkName: "dashboard" */ 'dashboard/index.js'),
   loading: () => (<div></div>)
 })
 
