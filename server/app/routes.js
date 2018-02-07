@@ -29,6 +29,11 @@ module.exports = function (app, passport) {
     res.sendFile(path.join(__dirname, '../../index.html'));
   })
 
+  app.get('/api/test', (req, res) => {
+    console.log('test', req.isAuthenticated(), req.user)
+    res.send(200, null)
+  })
+
   app.get('/api/check-session', function (req, res) {
     const payload = req.isAuthenticated()
       ? 'hasSession'

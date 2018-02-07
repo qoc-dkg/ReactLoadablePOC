@@ -9,6 +9,7 @@
     "dev": "node node_modules/babel-cli/bin/babel-node.js node_modules/webpack/bin/webpack.js"
   },
   "dependencies": {
+    "axios": "^0.17.1",
     "bcrypt-nodejs": "latest",
     "body-parser": "~1.0.0",
     "connect-flash": "~0.1.1",
