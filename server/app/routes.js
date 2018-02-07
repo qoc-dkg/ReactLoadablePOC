@@ -55,7 +55,7 @@ module.exports = function (app, passport, apiProxy) {
         })
       }
       req.logIn(user, function (err) {
-        return res.send(200, serializeUser(user))
+        return res.send(200, user)
       })
     })(req, res)
   })
@@ -70,20 +70,27 @@ module.exports = function (app, passport, apiProxy) {
   app.delete(apiRegex, isAuthenticated, proxyCall)
   app.put(apiRegex, isAuthenticated, proxyCall)
   app.post(apiRegex, isAuthenticated, proxyCall)
-  app.get(apiRegex, isAuthenticated, proxyCall)
+  app.get(apiRegex, isAuthenticated, (req, res) => {
+    console.log(req.url)
+    req.params[0]
+    proxyCall(req, res)
+  })
 
   function proxyCall(req, res) {
+    const queryString = req.url.indexOf('?') > -1
+      ? '?' + req.url.split('?').pop()
+      : ''
+    console.log('querystring', queryString)
     apiProxy.web(req, res, {
       ssl: {
         key: fs.readFileSync(path.join(__dirname, '../config/ssl/valid-ssl-key.key'), 'utf8'),
         cert: fs.readFileSync(path.join(__dirname, '../config/ssl/valid-ssl-cert.cert'), 'utf8')
       },
       ignorePath: true,
-      target: `https://us-dev-api.qochealth.com/rest/${req.params[0]}`,
+      target: `https://us-dev-api.qochealth.com/rest/${req.params[0]}${queryString}`,
       secure: true,
       changeOrigin: true,
       headers: headers
     })
   }
-
 }

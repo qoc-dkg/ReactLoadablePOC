@@ -2,13 +2,13 @@ const SHA256 = require('crypto-js/sha256');
 
 module.exports = function (sharedSecret, url) {
   let secretString = ''
-  const splitArray = url.split('?');
-  const params = []
-  const splitParams = []
-  const timeStamp = new Date().getTime()
+  let splitArray = url.split('?')
+  let params = []
+  let splitParams = []
+  let timeStamp = new Date().getTime()
 
   if (splitArray.length > 1) {
-      params = url.slice(1).split('')
+      params = url.split('?').slice(1)
       splitParams = params[0].split('&')
       if (splitParams.length > 1) {
         splitParams.sort().forEach(item => {

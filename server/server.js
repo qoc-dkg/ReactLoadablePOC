@@ -17,6 +17,7 @@ const getSecureHeaders = require(path.join(__dirname, './util/headers.js'))
 apiProxy.on('proxyReq', function (proxyReq, req, res, options) {
   let secureHeaders = {}
   if (req.user && req.isAuthenticated()) {
+    console.log('href', options.target.href)
     secureHeaders = Object.assign({},
       getSecureHeaders(req.user.sharedSecret, options.target.href),
       {
@@ -24,7 +25,6 @@ apiProxy.on('proxyReq', function (proxyReq, req, res, options) {
         sessionUUID: req.user.sessionUUID
       }
     )
-    console.log('secure-headings', secureHeaders)
   }
   Object.keys(secureHeaders).forEach(key => {
     proxyReq.setHeader(key, secureHeaders[key])
