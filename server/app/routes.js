@@ -1,7 +1,8 @@
 const express = require('express')
 const path = require('path')
+const fs = require('fs')
 
-module.exports = function (app, passport) {
+module.exports = function (app, passport, apiProxy) {
   const isAuthenticated = function (req, res, next) {
     if (req.isAuthenticated()) {
       return next()
@@ -34,6 +35,11 @@ module.exports = function (app, passport) {
     res.send(200, null)
   })
 
+  app.get('/api/notifications', (req, res) => {
+    console.log('authenticated?', req.isAuthenticated(), req.user)
+    proxyCall(req, res, 'notifications')
+  })
+
   app.get('/api/check-session', function (req, res) {
     const payload = req.isAuthenticated()
       ? 'hasSession'
@@ -60,4 +66,19 @@ module.exports = function (app, passport) {
     }
     res.send(200, 'logged out')
   })
+
+  function proxyCall(req, res, path) {
+    apiProxy.web(req, res, {
+      ssl: {
+        key: fs.readFileSync(path.join(__dirname, '../config/ssl/valid-ssl-key.key'), 'utf8'),
+        cert: fs.readFileSync(path.join(__dirname, '../config/ssl/valid-ssl-cert.cert'), 'utf8')
+      },
+      ignorePath: true,
+      target: `https://us-dev-api.qochealth.com/rest/${path}`,
+      secure: true,
+      changeOrigin: true,
+      headers: headers
+    })
+  }
+
 }

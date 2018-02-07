@@ -35,7 +35,6 @@ module.exports = function (passport) {
   }))
 }
 
-
 const headers = {
   VersionCode: '0.5.82',
   ApplicationUUID: 'B8FAA490-199F-4DA3-AFEE-CB6FEBE9A96C',
