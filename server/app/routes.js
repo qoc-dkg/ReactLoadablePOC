@@ -70,17 +70,13 @@ module.exports = function (app, passport, apiProxy) {
   app.delete(apiRegex, isAuthenticated, proxyCall)
   app.put(apiRegex, isAuthenticated, proxyCall)
   app.post(apiRegex, isAuthenticated, proxyCall)
-  app.get(apiRegex, isAuthenticated, (req, res) => {
-    console.log(req.url)
-    req.params[0]
-    proxyCall(req, res)
-  })
+  app.get(apiRegex, isAuthenticated, proxyCall)
 
   function proxyCall(req, res) {
     const queryString = req.url.indexOf('?') > -1
       ? '?' + req.url.split('?').pop()
       : ''
-    console.log('querystring', queryString)
+
     apiProxy.web(req, res, {
       ssl: {
         key: fs.readFileSync(path.join(__dirname, '../config/ssl/valid-ssl-key.key'), 'utf8'),

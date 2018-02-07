@@ -12,14 +12,22 @@ const session = require('express-session')
 
 const httpProxy = require('http-proxy');
 const apiProxy = httpProxy.createProxyServer()
-const getSecureHeaders = require(path.join(__dirname, './util/headers.js'))
+const util = require(path.join(__dirname, './util/headers.js'))
 
 apiProxy.on('proxyReq', function (proxyReq, req, res, options) {
   let secureHeaders = {}
+  let bodyData = ''
+  console.log('util', util)
   if (req.user && req.isAuthenticated()) {
-    console.log('href', options.target.href)
+    let getSignatureMethod = util.getSignatureFromQueryString.bind(null,
+      req.user.sharedSecret, options.target.href)
+    if (req.body) {
+      bodyData= JSON.stringify(req.body)
+      getSignatureMethod = util.getSignatureFromBody.bind(null,
+        req.user.sharedSecret, bodyData)
+    }
     secureHeaders = Object.assign({},
-      getSecureHeaders(req.user.sharedSecret, options.target.href),
+      getSignatureMethod(),
       {
         sessionAPIUUID: req.user.sessionAPIUUID,
         sessionUUID: req.user.sessionUUID
@@ -30,9 +38,7 @@ apiProxy.on('proxyReq', function (proxyReq, req, res, options) {
     proxyReq.setHeader(key, secureHeaders[key])
   })
   if (req.body) {
-    let bodyData = Object.keys(req.body).map(key => {
-      return key + '=' + req.body[key]
-    }).join('&')
+    bodyData = 'Body=' + bodyData
     proxyReq.setHeader('Content-Length', Buffer.byteLength(bodyData))
     // stream the content
     proxyReq.write(bodyData);
