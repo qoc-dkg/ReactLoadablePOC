@@ -1,11 +1,7 @@
 var axios = require('axios')
 var LocalStrategy = require('passport-local').Strategy
 
-//load mongo user model
-//var User = require('../app/models/user')
-
 module.exports = function (passport) {
-
   passport.serializeUser(function (user, done) {
     done(null, user)
   })
@@ -19,17 +15,20 @@ module.exports = function (passport) {
     passwordField: 'password',
     passReqToCallback: true
   }, function (req, username, password, done) {
+    let sessionAPIUUID;
     callAuthAPI()
       .then(response => {
-        const sessionAPIUUID = response.data.sessionAPIUUID
+        sessionAPIUUID = response.data.sessionAPIUUID
         return callAuthUser(username, password, sessionAPIUUID)
       })
       .then(response => {
         const user = response.data
-        done(null, user)
+        done(null, Object.assign(user, {
+          sessionAPIUUID: sessionAPIUUID
+        }))
       })
       .catch(err => {
-        console.log(err)
+        console.log('login failed', err)
         done(null, false)
       })
   }))
@@ -54,7 +53,6 @@ function callAuthAPI () {
 }
 
 function callAuthUser (username, password, sessionAPIUUID) {
-  console.log('we here??', username, password, sessionAPIUUID)
   const config = {
     headers: Object.assign({}, headers, {
       sessionAPIUUID: sessionAPIUUID

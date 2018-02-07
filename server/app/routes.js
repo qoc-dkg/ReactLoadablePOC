@@ -2,6 +2,17 @@ const express = require('express')
 const path = require('path')
 const fs = require('fs')
 
+const versionCode = '0.5.82'
+const applicationUUID = 'B8FAA490-199F-4DA3-AFEE-CB6FEBE9A96C'
+const headers = {}
+headers['VersionCode'] = versionCode
+headers['ApplicationUUID'] = applicationUUID
+headers['Accept'] = 'application/json'
+headers['Accept-Language'] = 'en-us'
+headers['Content-Type'] = 'application/x-www-form-urlencoded'
+headers['APIVersion'] = '1.100000'
+headers['ClientLocale'] = 'en_CA'
+
 module.exports = function (app, passport, apiProxy) {
   const isAuthenticated = function (req, res, next) {
     if (req.isAuthenticated()) {
@@ -67,14 +78,14 @@ module.exports = function (app, passport, apiProxy) {
     res.send(200, 'logged out')
   })
 
-  function proxyCall(req, res, path) {
+  function proxyCall(req, res, apiPath) {
     apiProxy.web(req, res, {
       ssl: {
         key: fs.readFileSync(path.join(__dirname, '../config/ssl/valid-ssl-key.key'), 'utf8'),
         cert: fs.readFileSync(path.join(__dirname, '../config/ssl/valid-ssl-cert.cert'), 'utf8')
       },
       ignorePath: true,
-      target: `https://us-dev-api.qochealth.com/rest/${path}`,
+      target: `https://us-dev-api.qochealth.com/rest/${apiPath}`,
       secure: true,
       changeOrigin: true,
       headers: headers

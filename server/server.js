@@ -12,21 +12,30 @@ const session = require('express-session')
 
 const httpProxy = require('http-proxy');
 const apiProxy = httpProxy.createProxyServer()
-const getSecureHeaders = require(path.join(__dirname, '../util/headers.js'))
+const getSecureHeaders = require(path.join(__dirname, './util/headers.js'))
 
 apiProxy.on('proxyReq', function (proxyReq, req, res, options) {
   let secureHeaders = {}
   if (req.user && req.isAuthenticated()) {
-    secureHeaders = getSecureHeaders(req.user.sharedSecret)
+    secureHeaders = Object.assign({},
+      getSecureHeaders(req.user.sharedSecret, options.target.href),
+      {
+        sessionAPIUUID: req.user.sessionAPIUUID,
+        sessionUUID: req.user.sessionUUID
+      }
+    )
+    console.log('secure-headings', secureHeaders)
   }
-
+  Object.keys(secureHeaders).forEach(key => {
+    proxyReq.setHeader(key, secureHeaders[key])
+  })
   if (req.body) {
-    let bodyData = test
-    // incase if content-type is application/x-www-form-urlencoded -> we need to change to application/json
-    proxyReq.setHeader('Content-Type','application/x-www-form-urlencoded');
-    proxyReq.setHeader('Content-Length', Buffer.byteLength(test));
+    let bodyData = Object.keys(req.body).map(key => {
+      return key + '=' + req.body[key]
+    }).join('&')
+    proxyReq.setHeader('Content-Length', Buffer.byteLength(bodyData))
     // stream the content
-    proxyReq.write(test);
+    proxyReq.write(bodyData);
   }
 });
 

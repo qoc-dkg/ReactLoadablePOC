@@ -1,7 +1,7 @@
-const SHA256 = require("crypto-js/sha256");
+const SHA256 = require('crypto-js/sha256');
 
 module.exports = function (sharedSecret, url) {
-  const secretString = ''
+  let secretString = ''
   const splitArray = url.split('?');
   const params = []
   const splitParams = []
