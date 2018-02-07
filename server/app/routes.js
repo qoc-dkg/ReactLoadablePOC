@@ -2,6 +2,7 @@ const express = require('express')
 const path = require('path')
 const fs = require('fs')
 
+const apiRegex = /^\/api\/(.+)/
 const versionCode = '0.5.82'
 const applicationUUID = 'B8FAA490-199F-4DA3-AFEE-CB6FEBE9A96C'
 const headers = {}
@@ -23,8 +24,6 @@ module.exports = function (app, passport, apiProxy) {
     })
   }
 
-  const serializeUser = ({username}) => ({username})
-
   app.get(/^\/(build\/)?(dashboard.js)$/, isAuthenticated, (req, res) => {
     res.sendFile(path.join(__dirname, '../../build/' + req.params[1]));
   })
@@ -39,16 +38,6 @@ module.exports = function (app, passport, apiProxy) {
 
   app.get(/^\/(?!api.*).*/, (req, res) => {
     res.sendFile(path.join(__dirname, '../../index.html'));
-  })
-
-  app.get('/api/test', (req, res) => {
-    console.log('test', req.isAuthenticated(), req.user)
-    res.send(200, null)
-  })
-
-  app.get('/api/notifications', (req, res) => {
-    console.log('authenticated?', req.isAuthenticated(), req.user)
-    proxyCall(req, res, 'notifications')
   })
 
   app.get('/api/check-session', function (req, res) {
@@ -78,14 +67,19 @@ module.exports = function (app, passport, apiProxy) {
     res.send(200, 'logged out')
   })
 
-  function proxyCall(req, res, apiPath) {
+  app.delete(apiRegex, isAuthenticated, proxyCall)
+  app.put(apiRegex, isAuthenticated, proxyCall)
+  app.post(apiRegex, isAuthenticated, proxyCall)
+  app.get(apiRegex, isAuthenticated, proxyCall)
+
+  function proxyCall(req, res) {
     apiProxy.web(req, res, {
       ssl: {
         key: fs.readFileSync(path.join(__dirname, '../config/ssl/valid-ssl-key.key'), 'utf8'),
         cert: fs.readFileSync(path.join(__dirname, '../config/ssl/valid-ssl-cert.cert'), 'utf8')
       },
       ignorePath: true,
-      target: `https://us-dev-api.qochealth.com/rest/${apiPath}`,
+      target: `https://us-dev-api.qochealth.com/rest/${req.params[0]}`,
       secure: true,
       changeOrigin: true,
       headers: headers
