@@ -6,8 +6,8 @@ class Gateway extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      username: '',
-      password: '',
+      username: 'ku-teleroo-schoola-staff-dev02',
+      password: 'kuteleroo',
       error: props.error || ''
     }
   }

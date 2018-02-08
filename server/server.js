@@ -17,11 +17,12 @@ const util = require(path.join(__dirname, './util/headers.js'))
 apiProxy.on('proxyReq', function (proxyReq, req, res, options) {
   let secureHeaders = {}
   let bodyData = ''
-  console.log('util', util)
+  let hasBodyData = req.body && Object.keys(req.body).length
   if (req.user && req.isAuthenticated()) {
     let getSignatureMethod = util.getSignatureFromQueryString.bind(null,
       req.user.sharedSecret, options.target.href)
-    if (req.body) {
+
+    if (hasBodyData) {
       bodyData= JSON.stringify(req.body)
       getSignatureMethod = util.getSignatureFromBody.bind(null,
         req.user.sharedSecret, bodyData)
@@ -37,7 +38,7 @@ apiProxy.on('proxyReq', function (proxyReq, req, res, options) {
   Object.keys(secureHeaders).forEach(key => {
     proxyReq.setHeader(key, secureHeaders[key])
   })
-  if (req.body) {
+  if (hasBodyData) {
     bodyData = 'Body=' + bodyData
     proxyReq.setHeader('Content-Length', Buffer.byteLength(bodyData))
     // stream the content

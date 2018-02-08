@@ -1,13 +1,11 @@
-const express = require('express')
 const path = require('path')
 const fs = require('fs')
+const constants = require(path.join(__dirname, '../config/constants.js'))
 
 const apiRegex = /^\/api\/(.+)/
-const versionCode = '0.5.82'
-const applicationUUID = 'B8FAA490-199F-4DA3-AFEE-CB6FEBE9A96C'
 const headers = {}
-headers['VersionCode'] = versionCode
-headers['ApplicationUUID'] = applicationUUID
+headers['VersionCode'] = constants.VersionCode
+headers['ApplicationUUID'] = constants.ApplicationUUID
 headers['Accept'] = 'application/json'
 headers['Accept-Language'] = 'en-us'
 headers['Content-Type'] = 'application/x-www-form-urlencoded'

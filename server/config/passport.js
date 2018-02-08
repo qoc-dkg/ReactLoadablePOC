@@ -1,5 +1,7 @@
-var axios = require('axios')
-var LocalStrategy = require('passport-local').Strategy
+const axios = require('axios')
+const path = require('path')
+const LocalStrategy = require('passport-local').Strategy
+const constants = require(path.join(__dirname, './constants.js'))
 
 module.exports = function (passport) {
   passport.serializeUser(function (user, done) {
@@ -28,26 +30,24 @@ module.exports = function (passport) {
         }))
       })
       .catch(err => {
-        console.log('login failed', err)
         done(null, false)
       })
   }))
 }
 
 const headers = {
-  VersionCode: '0.5.82',
-  ApplicationUUID: 'B8FAA490-199F-4DA3-AFEE-CB6FEBE9A96C',
+  VersionCode: constants.VersionCode,
+  ApplicationUUID: constants.ApplicationUUID,
   Accept: 'application/json',
   'Content-Type': 'application/x-www-form-urlencoded'
 }
-const baseUrl = 'https://us-dev-api.qochealth.com/rest/'
 
 function callAuthAPI () {
   const config = {
     headers: headers,
     method: 'POST',
-    url: `${baseUrl}/logins/auth/api`,
-    data: 'ApiKey=BE4530F3-8D58-44BC-B59E-1E5F147A5D36&ApiSecret=password',
+    url: `${constants.BaseUrl}/logins/auth/api`,
+    data: `ApiKey=${constants.ApiKey}&ApiSecret=${constants.ApiSecret}`,
   }
   return axios(config)
 }
@@ -58,7 +58,7 @@ function callAuthUser (username, password, sessionAPIUUID) {
       sessionAPIUUID: sessionAPIUUID
     }),
     method: 'POST',
-    url: `${baseUrl}/logins/auth/user`,
+    url: `${constants.BaseUrl}/logins/auth/user`,
     data: `LoginUserId=${username}&LoginPassword=${password}`
   }
   return axios(config)
