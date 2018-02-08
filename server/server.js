@@ -1,6 +1,13 @@
+const fs = require('fs')
+const path = require('path')
+const http = require('http')
+const https = require('https')
+const privateKey = fs.readFileSync(path.join(__dirname, './config/ssl/valid-ssl-key.key'), 'utf8')
+const cert = fs.readFileSync(path.join(__dirname, './config/ssl/valid-ssl-cert.cert'), 'utf8')
+
 const express = require('express')
 const app = express()
-const path = require('path')
+
 const port = process.env.PORT || 8080
 const mongoose = require('mongoose')
 const passport = require('passport')
@@ -59,4 +66,9 @@ app.use(passport.initialize())
 app.use(passport.session())
 
 require('./app/routes.js')(app, passport, apiProxy)
-app.listen(port)
+
+http.createServer(app).listen(port)
+https.createServer({
+  key: privateKey,
+  cert: cert
+}, app).listen(8443)

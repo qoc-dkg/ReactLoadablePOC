@@ -76,10 +76,6 @@ module.exports = function (app, passport, apiProxy) {
       : ''
 
     apiProxy.web(req, res, {
-      ssl: {
-        key: fs.readFileSync(path.join(__dirname, '../config/ssl/valid-ssl-key.key'), 'utf8'),
-        cert: fs.readFileSync(path.join(__dirname, '../config/ssl/valid-ssl-cert.cert'), 'utf8')
-      },
       ignorePath: true,
       target: `https://us-dev-api.qochealth.com/rest/${req.params[0]}${queryString}`,
       secure: true,
